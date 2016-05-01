@@ -231,12 +231,19 @@ defmodule Porcelain.Driver.Goon do
 
   @doc false
   def check_goon_version(path) do
-    ackstr = for << <<byte>> <- :crypto.rand_bytes(8) >>,
-                 byte != 0, into: "", do: <<byte>>
     args = ["-proto", @proto_version, "-ack", ackstr]
     opts = {[out: {:string, ""}], []}
     result = %Porcelain.Result{} = Porcelain.Driver.Basic.exec(path, args, opts)
     result.status == 0 and result.out == ackstr
+  end
+
+  @doc false
+  def ackstr() do
+    case :os.type do
+      {:win32,_} -> "spikedValue"
+      _ -> for << <<byte>> <- :crypto.rand_bytes(8) >>,
+                   byte != 0, into: "", do: <<byte>>
+    end
   end
 
   @doc false
