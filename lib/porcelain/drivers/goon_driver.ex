@@ -114,7 +114,7 @@ defmodule Porcelain.Driver.Goon do
 
   defp port_options(:shell, prog, _, opts) do
     {sh, sh_args} = Common.shell_command(prog)
-    args = List.flatten([goon_options(opts), "--", List.to_string(sh), sh_args])
+    args = List.flatten([goon_options(opts), "--", List.to_string(List.flatten([sh])), sh_args])
     [{:args, args} | common_port_options(opts)]
   end
 
