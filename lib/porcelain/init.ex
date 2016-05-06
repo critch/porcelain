@@ -105,7 +105,7 @@ defmodule Porcelain.Init do
         Path.absname("goon")
       exe=:os.find_executable('goon') ->
         List.to_string(exe)
-      exe=:os.find_executable('goon', Application.app_dir(:porcelain)) ->
+      exe=:os.find_executable('goon', to_string(:code.priv_dir(:porcelain))) ->
 	List.to_string(exe)
       true -> false
     end
